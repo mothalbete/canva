@@ -1,0 +1,63 @@
+/* Fuente retro pixel (importa en tu HTML con Google Fonts) */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* Fondo general estilo arcade */
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at center, #000000 60%, #111111 100%);
+  font-family: 'Press Start 2P', cursive;
+  color: #00ffcc;
+}
+
+/* Canvas retro pixel */
+#myCanvas {
+  background-color: #000; /* negro clásico */
+  border: 4px solid #00ffcc; /* borde neón */
+  image-rendering: pixelated; /* fuerza estilo pixel */
+  box-shadow: 0 0 20px #00ffcc, 0 0 40px #ff00ff; /* efecto glow */
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* Animación glow arcade */
+@keyframes glow {
+  0% { box-shadow: 0 0 10px #00ffcc; }
+  50% { box-shadow: 0 0 20px #ff00ff; }
+  100% { box-shadow: 0 0 10px #00ffcc; }
+}
+
+#myCanvas {
+  animation: glow 2s infinite alternate;
+}
+
+/* --- Ajustes responsivos según orientación --- */
+
+/* 📱 Móvil en vertical (portrait) */
+@media screen and (orientation: portrait) {
+  #myCanvas {
+    width: 90vw;   /* ocupa casi todo el ancho */
+    height: 60vh;  /* más bajo para que quepa */
+  }
+}
+
+/* 📱 Móvil en horizontal (landscape) */
+@media screen and (orientation: landscape) {
+  #myCanvas {
+    width: 80vw;   /* más ancho */
+    height: 80vh;  /* más alto */
+  }
+}
+
+/* Texto retro (si usas marcador fuera del canvas) */
+.score {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 20px;
+  color: #ff00ff;
+  text-shadow: 2px 2px #00ffcc;
+  text-align: center;
+  margin-top: 10px;
+}
