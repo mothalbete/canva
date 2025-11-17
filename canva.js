@@ -26,19 +26,27 @@ document.addEventListener("keyup", (e) => {
   if (e.key === "ArrowLeft") leftPressed = false;
 });
 
-// --- CONTROL TÁCTIL EN MÓVIL ---
-canvas.addEventListener("touchmove", (e) => {
+// --- CONTROL TÁCTIL POR LADO DE PANTALLA ---
+canvas.addEventListener("touchstart", (e) => {
   const rect = canvas.getBoundingClientRect();
   const touchX = e.touches[0].clientX - rect.left;
 
-  // centrar la raqueta en la posición del dedo
-  raquetax = touchX - raquetaWidth / 2;
+  if (touchX < canvas.width / 2) {
+    // lado izquierdo
+    leftPressed = true;
+    rightPressed = false;
+  } else {
+    // lado derecho
+    rightPressed = true;
+    leftPressed = false;
+  }
 
-  // límites para que no se salga del canvas
-  if (raquetax < 0) raquetax = 0;
-  if (raquetax + raquetaWidth > canvas.width) raquetax = canvas.width - raquetaWidth;
+  e.preventDefault();
+});
 
-  e.preventDefault(); // evita scroll accidental
+canvas.addEventListener("touchend", () => {
+  leftPressed = false;
+  rightPressed = false;
 });
 
 function draw() {
@@ -55,8 +63,8 @@ function draw() {
 
   // marcador centrado en ambos ejes
   ctx.font = "50px Arial";
-  ctx.fillStyle = "rgba(237, 93, 250, 0.4)"; // semitransparente
-  ctx.textBaseline = "middle";          // centro vertical
+  ctx.fillStyle = "rgba(0, 0, 0, 0.4)";
+  ctx.textBaseline = "middle";
   const texto = `Vidas: ${vidas}`;
   const textWidth = ctx.measureText(texto).width;
   const posX = (canvas.width - textWidth) / 2;
@@ -79,7 +87,7 @@ function update() {
     raquetaSpeed *= 1.05;
   }
 
-  // 🚀 Movimiento fluido con teclado (PC)
+  // 🚀 Movimiento fluido con teclado o táctil
   if (rightPressed && raquetax + raquetaWidth < canvas.width) {
     raquetax += raquetaSpeed;
   }
@@ -115,7 +123,7 @@ function loop() {
     requestAnimationFrame(loop);
   } else {
     ctx.font = "50px Arial";
-    ctx.fillStyle = "rgba(106, 255, 7, 0.5)";
+    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
     ctx.textBaseline = "middle";
     const texto = "Game Over";
     const textWidth = ctx.measureText(texto).width;
